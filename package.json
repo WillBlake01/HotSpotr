@@ -1,0 +1,62 @@
+{
+  "name": "hotspotr",
+  "version": "1.0.0",
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=7.10.0"
+  },
+  "description": "This is a Business Planning tool meant to replace the research necessary to identify a Target Market, conduct a Competitive Analysis, and find that perfect location.",
+  "main": "server.js",
+  "scripts": {
+    "server": "node server.js",
+    "client": "cd client && yarn start",
+    "start": "concurrently \"pm2-runtime start ecosystem.config.js --env production\" \"yarn client\"",
+    "dev-start": "concurrently \"nodemon server.js\" \"yarn client\"",
+    "build": "cd client && yarn build",
+    "deploy": "yarn build && git add . && git commit -m \"Building for production\" && git push heroku master",
+    "test": "mocha test/test.js",
+    "installDeps": "yarn && cd client && yarn",
+    "sass": "sass --watch src/styles/scss:src/styles/css"
+  },
+  "author": "Will Blake",
+  "license": "ISC",
+  "devDependencies": {
+    "browser-sync": "^2.24.7",
+    "concurrently": "^4.0.1",
+    "nodemon": "^1.18.4"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "bcrypt-nodejs": "^0.0.3",
+    "chai": "^4.3.4",
+    "connect-ensure-login": "^0.1.1",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.5",
+    "dotenv": "^9.0.0",
+    "express": "^4.17.1",
+    "express-react-views": "^0.11.0",
+    "express-request-id": "^1.4.1",
+    "express-session": "^1.17.1",
+    "express-winston": "^4.1.0",
+    "local": "^0.3.3",
+    "morgan": "^1.10.0",
+    "mysql2": "^2.2.5",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "sequelize": "^6.6.2",
+    "sequelize-cli": "^4.0.0",
+    "supertest": "^3.1.0",
+    "winston": "^3.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/willblake01/hotspotr.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/willblake01/hotspotr/issues"
+  },
+  "homepage": "https://github.com/willblake01/hotspotr#readme"
+}
