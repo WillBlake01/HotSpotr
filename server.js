@@ -9,9 +9,9 @@ const expressWinston = require('express-winston');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const https = require('https');
+const expressRequestId = require('express-request-id')();
 const logger = require('./log/lib/logger.js');
 const requestLogger = require('./log/lib/requestLogger.js');
-const expressRequestId = require('express-request-id')();
 
 // Set up port to be either the host's designated port, or 3001
 const PORT = process.env.PORT || 3001;
@@ -22,29 +22,25 @@ const app = express();
 // Import sequelize models
 const db = require('./models');
 
-// Pass passport for configuration
-require('./config/passport')(passport, db.User);
-
 // Setup express app
-app.use(morgan('dev')); // log every request to the console
 app.use(cookieParser()); // read cookies (needed for auth)
+app.use(session({ secret: 'yBqvz_9nMjUxY*mUk8A9p!mGQMkQKo-d9faKT-72pMo2!mQ___B.KJkEW2tvDuE64F99-yFxhdZwjvNQ74Tjhjy3JmNiHW*HTuaU',
+  resave: true,
+  saveUninitialized: true,
+  cookie: {
+    maxAge: 60000
+  }
+}));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
-// Implement Morgan request logger
-app.use(requestLogger);
 
 // Appends request ID to request object
 app.use(expressRequestId);
 
-// Serve up static assets
-app.use(express.static('client/build'));
+// Pass passport for configuration
+require('./config/passport')(passport, db.User);
 
 // Required for passport
-app.use(session({ secret: 'yBqvz_9nMjUxY*mUk8A9p!mGQMkQKo-d9faKT-72pMo2!mQ___B.KJkEW2tvDuE64F99-yFxhdZwjvNQ74Tjhjy3JmNiHW*HTuaU',
-  resave: true,
-  saveUninitialized: true
-}));
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
@@ -60,18 +56,25 @@ app.use(expressWinston.logger({
   ]
 }));
 
-// routes ======================================================================
-require('./routes/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
+// Implement Morgan request logger
+app.use(morgan('dev')); // log every request to the console
+app.use(requestLogger);
+
+// Set default engine, and provide [react] extension
+app.engine('js', require('express-react-views').createEngine());
+app.set('views', __dirname + '/client/src/pages');
+app.set('view engine', 'js');
+
+// Serve up static assets
+app.use(express.static('client/build'));
+
+// Routes ======================================================================
+require('./routes/routes')(app, passport); // load our routes and pass in our app and fully configured passport
 
 // Define any API routes before this runs
 app.use('*', (req, res) => {
   res.sendFile(path.join(__dirname, './client/build/index.html'));
 });
-
-//set default engine, and provide [react] extension
-app.engine('js', require('express-react-views').createEngine());
-app.set('views', __dirname + '/client/src/pages');
-app.set('view engine', 'js');
 
 // Request error handling
 app.use((request, response) => {
@@ -93,7 +96,7 @@ app.use((error, request, response, next) => {
 });
 
 // Run server and sync database
-db.sequelize.sync({ force: true }).then(() => {
+db.sequelize.sync().then(() => {
   app.listen(PORT, () => {
     console.log(`🌎 ==> Server now on port ${PORT}!`);
   })

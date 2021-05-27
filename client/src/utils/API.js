@@ -2,15 +2,19 @@ import axios from 'axios';
 
 export default {
   userSignUp: (user) => {
-    return axios.post('/signup', user);
+    axios.post('/signup', user).then(res => {
+      window.location = res.data.redirectUrl;
+    });
   },
   userLogIn: (user) => {
-    return axios.post('/login', user);
+    axios.post('/login', user).then(res => {
+      window.location = res.data.redirectUrl;
+    });
   },
-  userLogOut: () => {
-    return axios.get('/logout');
+  userLogOut: (user) => {
+    axios.get('/logout', user);
   },
   sendTest: (keyword) => {
-    return axios.post('/call', keyword);
+    axios.post('/call', keyword);
   }
 };

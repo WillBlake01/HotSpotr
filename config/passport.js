@@ -17,9 +17,9 @@ module.exports = (passport, user) => {
 
   // used to deserialize the user
   passport.deserializeUser((id, done) => {
-    User.findByPk(id, (err, user) => {
-      done(err, user);
-    });
+    User.findByPk(id)
+    .then((user) => done(null, user))
+    .catch(err => done(err))
   });
 
   // =========================================================================
@@ -39,10 +39,12 @@ module.exports = (passport, user) => {
           .then((user) => {
             if (!user) {
               console.log("no user");
-              done(null, false, req.flash("loginMessage", "Unknown user"));
+              // done(null, false, req.flash("loginMessage", "Unknown user"));
+              done(null, false);
             } else if (!bcrypt.compareSync(password, user.localpassword)) {
               console.log("wrong password");
-              done(null, false, req.flash("loginMessage", "Wrong password"));
+              // done(null, false, req.flash("loginMessage", "Wrong password"));
+              done(null, false);
             } else {
               console.log('success login!');
               done(null, user);
@@ -77,12 +79,13 @@ module.exports = (passport, user) => {
         User.findOne({ where: { localemail: email } })
           .then((existingUser) => {
             // check to see if there's already a user with that email
-            if (existingUser)
-              return done(
+            if (existingUser) {
+              done(
                 null,
                 false,
                 req.flash("loginMessage", "That email is already taken.")
               );
+            }
 
             //  If we're logged in, we're connecting a new local account.
             if (req.user) {
@@ -91,11 +94,11 @@ module.exports = (passport, user) => {
               user.localpassword = User.generateHash(password);
               user
                 .save()
+                .then((user) => {
+                  done(null, user);
+                })
                 .catch((err) => {
                   throw err;
-                })
-                .then(() => {
-                  done(null, user);
                 });
             } else {
               console.log("else hit")
@@ -107,7 +110,7 @@ module.exports = (passport, user) => {
               });
               newUser
                 .save()
-                .then((result) => {
+                .then((newUser) => {
                   done(null, newUser);
                 })
                 .catch((err) => {

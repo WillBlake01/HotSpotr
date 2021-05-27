@@ -22,30 +22,24 @@ class AuthModal extends Component {
       alert('Please enter a valid email and password');
     } else {
       if (this.props.clickedBtn === 'Sign Up') {
+        this.props.toggleModal();
         API.userSignUp({
           email: this.state.email,
           password: this.state.password
         })
-        .then(res => {
-          console.log(res);
-          window.location.replace('/dashboard');
-        })
-        .catch(err => {
-          console.log(err);
+        this.setState({
+          email: '',
+          password: ''
         });
       } else if (this.props.clickedBtn === 'Login') {
+        this.props.toggleModal();
         API.userLogIn({
             email: this.state.email,
             password: this.state.password
         })
-        .then(res => {
-          console.log(res);
-          if (res) {
-            window.location.replace('/dashboard');
-          }
-        })
-        .catch(err => {
-          console.log(err);
+        this.setState({
+          email: '',
+          password: ''
         });
       }
     }
@@ -59,9 +53,9 @@ class AuthModal extends Component {
           <button
             className='modal-close is-large'
             aria-label='close'
-            onClick={() => this.props.toggleModal()}
+            onClick={this.props.toggleModal}
           />
-          <form onSubmit={this.handleSubmit}>
+          <form>
             <label>
               <p>Email</p>
               <input

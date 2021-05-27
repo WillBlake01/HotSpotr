@@ -11,6 +11,11 @@ class Landing extends React.Component {
     clickedBtn: ''
   };
 
+  toggleModal = () => {
+    const currentModalState = this.state.activeModal;
+    this.setState({ activeModal: !currentModalState });
+  }
+
   toggleSignUp = () => {
     const currentModalState = this.state.activeModal;
     this.setState({ activeModal: !currentModalState, clickedBtn: 'Sign Up' });
@@ -52,7 +57,7 @@ class Landing extends React.Component {
           <AuthModal
             activeModal={this.state.activeModal}
             clickedBtn={this.state.clickedBtn}
-            toggleModal={this.toggleSignUp}
+            toggleModal={this.toggleModal}
           />
           <div className='landing-grid-row'>
             <SocialMedia socialClass='landing-social-media' />

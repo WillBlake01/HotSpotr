@@ -4,6 +4,7 @@ const axios = require('axios');
 module.exports = (app, passport) => {
   // PROFILE SECTION =========================
   app.get('/dashboard', isLoggedIn, (req, res) => {
+    console.log('Dashboard!')
     res.sendFile(path.join(__dirname, '../client/build/index.html'), {
       user: req.user
     });
@@ -22,26 +23,29 @@ module.exports = (app, passport) => {
   // process the login form
   app.post(
     '/login',
-    passport.authenticate('local-login', {
-      successRedirect: '/dashboard', // redirect to the secure profile section
-      failureRedirect: '/', // redirect back to the signup page if there is an error
-      failureFlash: true // allow flash messages
-    })
+    passport.authenticate('local-login'), (req, res) => {
+      if (req.user) {
+        res.send({redirectUrl: '/dashboard'});
+      } else {
+        res.send({redirectUrl: '/'});
+      }
+    }
   );
 
   // SIGNUP =================================
-  // process the signup form
+  // Process the signup form
   app.post(
     '/signup',
-    passport.authenticate('local-signup', {
-      successRedirect: '/dashboard', // redirect to the secure profile section
-      failureRedirect: '/', // redirect back to the signup page if there is an error
-      failureFlash: true // allow flash messages
-    })
+    passport.authenticate('local-signup'), (req, res) => {
+      if (req.user) {
+        res.send({redirectUrl: '/dashboard'});
+      } else {
+        res.send({redirectUrl: '/'});
+      }
+    }
   );
 
   app.post('/call', (req, res) => {
-    console.log(req.body);
     const keyword = req.body.keyword;
     axios
       .get(
@@ -52,9 +56,13 @@ module.exports = (app, passport) => {
       });
   });
 };
+
 // route middleware to ensure user is logged in
 const isLoggedIn = (req, res, next) => {
-  if (req.isAuthenticated()) return next();
-
-  res.redirect('/');
+  console.log('isLoggedIn Req:', req.isAuthenticated())
+  if (req.isAuthenticated()) {
+    next();
+  } else {
+    res.redirect('/');
+  }
 }
