@@ -11,8 +11,8 @@ let sequelize;
 
 if (config.use_env_variable) {
   sequelize = new Sequelize(process.env[config.use_env_variable], config);
-} else if (process.env.DATABASE_PRODUCTION) {
-  sequelize = new Sequelize(process.env.DATABASE_PRODUCTION);
+} else if (process.env.JAWSDB_URL) {
+  sequelize = new Sequelize(process.env.JAWSDB_URL);
 } else {
   sequelize = new Sequelize(config.database, config.username, config.password, config);
 }

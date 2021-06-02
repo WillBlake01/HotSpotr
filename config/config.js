@@ -1,7 +1,7 @@
 module.exports = {
   "development": {
-    "username": process.env.MYSQL_USERNAME,
-    "password": process.env.MYSQL_PASSWORD,
+    "username": process.env.DATABASE_USERNAME,
+    "password": process.env.DATABASE_PASSWORD,
     "database": "hotspotr",
     "host": "127.0.0.1",
     "dialect": "mysql",
@@ -9,8 +9,8 @@ module.exports = {
     "operatorsAliases": false
   },
   "test": {
-    "username": process.env.MYSQL_USERNAME,
-    "password": process.env.MYSQL_PASSWORD,
+    "username": process.env.DATABASE_USERNAME,
+    "password": process.env.DATABASE_PASSWORD,
     "database": "hotspotr_test",
     "host": "127.0.0.1",
     "dialect": "mysql"

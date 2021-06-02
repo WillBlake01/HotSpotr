@@ -8,10 +8,11 @@ const winston = require('winston');
 const expressWinston = require('express-winston');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
+const redis = require('redis');
 const https = require('https');
 const expressRequestId = require('express-request-id')();
-const logger = require('./log/lib/logger.js');
-const requestLogger = require('./log/lib/requestLogger.js');
+const logger = require('./utils/logger.js');
+const requestLogger = require('./utils/requestLogger.js');
 
 // Set up port to be either the host's designated port, or 3001
 const PORT = process.env.PORT || 3001;
@@ -22,15 +23,23 @@ const app = express();
 // Import sequelize models
 const db = require('./models');
 
+// Initialize Redis store
+let RedisStore = require('connect-redis')(session);
+let redisClient = redis.createClient(process.env.REDIS_URL);
+
 // Setup express app
 app.use(cookieParser()); // read cookies (needed for auth)
-app.use(session({ secret: 'yBqvz_9nMjUxY*mUk8A9p!mGQMkQKo-d9faKT-72pMo2!mQ___B.KJkEW2tvDuE64F99-yFxhdZwjvNQ74Tjhjy3JmNiHW*HTuaU',
-  resave: true,
-  saveUninitialized: true,
-  cookie: {
-    maxAge: 60000
-  }
-}));
+app.use(
+  session({
+    store: new RedisStore({ client: redisClient }),
+    saveUninitialized: true,
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    cookie: {
+      maxAge: 24 * 60 * 60 * 1000 // 24 hours
+    }
+  })
+);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
