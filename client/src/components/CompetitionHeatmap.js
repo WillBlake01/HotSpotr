@@ -1,11 +1,9 @@
 import React from 'react';
 
-class CompetitionHeatmap extends React.Component {
-    render() {
-        return (
-            
-        )
-    }
+const CompetitionHeatmap = () => {
+    return (
+        
+    )
 }
 
 export default CompetitionHeatmap;
