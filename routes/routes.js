@@ -12,8 +12,12 @@ module.exports = (app, passport) => {
 
   // LOGOUT ==============================
   app.get('/logout', (req, res) => {
-    req.logout();
-    res.redirect('/')
+    if (req.user) {
+      req.logout();
+      res.send({redirectUrl: '/'});
+    } else {
+      res.send({redirectUrl: '/'});
+    }
   });
 
   // =============================================================================
