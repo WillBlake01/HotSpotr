@@ -12,7 +12,9 @@ export default {
     });
   },
   userLogOut: (user) => {
-    axios.get('/logout', user);
+    axios.get('/logout', user).then(res => {
+      window.location = res.data.redirectUrl;
+    });
   },
   sendTest: (keyword) => {
     axios.post('/call', keyword);
