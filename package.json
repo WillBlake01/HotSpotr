@@ -2,7 +2,7 @@
   "name": "hotspotr",
   "version": "1.0.0",
   "engines": {
-    "node": "16.2.0",
+    "node": ">=16.1.0",
     "yarn": "1.22.10"
   },
   "description": "This is a Business Planning tool meant to replace the research necessary to identify a Target Market, conduct a Competitive Analysis, and find that perfect location.",

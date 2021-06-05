@@ -1,21 +1,31 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import store from '../store';
+import { Route, Switch } from 'react-router';
+import { ConnectedRouter } from 'connected-react-router';
+import configureStore, { history } from '../configureStore';
 import App from './App';
 import Landing from '../pages/Landing';
 import Dashboard from '../pages/Dashboard';
 require('dotenv').config();
 
+//Create an object for the default data
+const defaultState = {
+    user: {
+        email: ''
+    }
+};
+
+const store = configureStore(defaultState);
+
 const Router = () => (
     <Provider store={store}>
-        <BrowserRouter store={store}>
-            <Switch store={store}>
-                <Route store={store} exact path='/' component={Landing} />
-                <Route store={store} exact path='/dashboard' component={Dashboard} />
-                <Route store={store} path='/store/:storeId' component={App} />
+        <ConnectedRouter history={history}>
+            <Switch>
+                <Route exact path='/' component={Landing} />
+                <Route exact path='/dashboard' component={Dashboard} />
+                <Route path='/store/:storeId' component={App} />
             </Switch>
-        </BrowserRouter>
+        </ConnectedRouter>
     </Provider>
 )
 
