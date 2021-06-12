@@ -1,6 +1,6 @@
 import React from 'react';
 
-const IndustryForm = ({handleInputChange, handleSubmit}) => (
+export const IndustryForm = ({handleInputChange, handleSubmit}) => (
   <div className='field'>
     <label className='label'>What industry are you competing in?</label>
     <div className='control'>
@@ -11,5 +11,3 @@ const IndustryForm = ({handleInputChange, handleSubmit}) => (
     </div>
   </div>
 );
-
-export default IndustryForm;

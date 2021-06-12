@@ -13,10 +13,10 @@
   "dependencies": {
     "@material-ui/core": "^4.11.4",
     "cloudinary-core": "^2.11.4",
+    "connected-react-router": "^6.9.1",
     "create-react-class": "^15.7.0",
     "dotenv": "^9.0.2",
     "google-map-react": "^2.1.9",
-    "history": "^1.17.0",
     "lodash": ">=4.0",
     "react": "^17.0.2",
     "react-bootstrap": "^1.6.0",
@@ -25,10 +25,10 @@
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-router-link": "^2.0.2",
-    "react-router-redux": "^4.0.8",
     "react-scripts": "^4.0.3",
     "react-transition-group": "^4.4.1",
     "redux": "^4.1.0",
+    "redux-devtools-extension": "^2.13.9",
     "sass": "^1.32.12",
     "typescript": ">=2.8.0"
   },

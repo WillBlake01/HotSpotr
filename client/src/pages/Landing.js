@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import Logo from '../components/Logo.js';
-import LargeButton from '../components/LargeButton.js';
-import AuthModal from '../components/AuthModal.js';
-import Footer from '../components/Footer.js';
-import SocialMedia from '../components/SocialMedia.js';
+import { Logo } from '../components/Logo.js';
+import { LargeButton } from '../components/LargeButton.js';
+import { AuthModal } from '../components/AuthModal.js';
+import { Footer } from '../components/Footer.js';
+import { SocialMedia } from '../components/SocialMedia.js';
 
-const Landing = () => {
+export const Landing = () => {
   const [activeModal, setActiveModal] = useState(false);
   const [clickedButton, setClickedButton] = useState('');
 
@@ -66,5 +66,3 @@ const Landing = () => {
     </div>
   );
 }
-
-export default Landing;

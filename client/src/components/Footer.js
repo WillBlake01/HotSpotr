@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Footer = ({footerClass}) => (
+export const Footer = ({footerClass}) => (
         <footer className={footerClass}>
             <a className='footer-link' href='https://github.com/willblake01/hotspotr' target="_blank" rel="noopener noreferrer">
                 <i className="fab fa-github-alt"></i>
@@ -8,5 +8,3 @@ const Footer = ({footerClass}) => (
             </a>
         </footer>
 )
-
-export default Footer;

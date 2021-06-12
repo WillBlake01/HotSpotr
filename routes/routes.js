@@ -1,22 +1,18 @@
-const path = require('path');
 const axios = require('axios');
 
 module.exports = (app, passport) => {
   // PROFILE SECTION =========================
   app.get('/dashboard', isLoggedIn, (req, res) => {
-    console.log('Dashboard!')
-    res.sendFile(path.join(__dirname, '../client/build/index.html'), {
-      user: req.user
-    });
+    req.user ? res.send(true) : res.send(false)
   });
 
   // LOGOUT ==============================
   app.get('/logout', (req, res) => {
     if (req.user) {
       req.logout();
-      res.send({redirectUrl: '/'});
+      res.send(false);
     } else {
-      res.send({redirectUrl: '/'});
+      res.send(false);
     }
   });
 
@@ -28,11 +24,7 @@ module.exports = (app, passport) => {
   app.post(
     '/login',
     passport.authenticate('local-login'), (req, res) => {
-      if (req.user) {
-        res.send({redirectUrl: '/dashboard'});
-      } else {
-        res.send({redirectUrl: '/'});
-      }
+      req.user ? res.redirect('/dashboard') : res.redirect('/')
     }
   );
 
@@ -41,11 +33,7 @@ module.exports = (app, passport) => {
   app.post(
     '/signup',
     passport.authenticate('local-signup'), (req, res) => {
-      if (req.user) {
-        res.send({redirectUrl: '/dashboard'});
-      } else {
-        res.send({redirectUrl: '/'});
-      }
+      req.user ? res.redirect('/dashboard') : res.redirect('/')
     }
   );
 
@@ -63,10 +51,5 @@ module.exports = (app, passport) => {
 
 // route middleware to ensure user is logged in
 const isLoggedIn = (req, res, next) => {
-  console.log('isLoggedIn Req:', req.isAuthenticated())
-  if (req.isAuthenticated()) {
-    next();
-  } else {
-    res.redirect('/');
-  }
+  req.isAuthenticated ? next() : res.redirect('/')
 }

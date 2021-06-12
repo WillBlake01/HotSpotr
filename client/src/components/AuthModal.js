@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
-import API from '../utils/API';
+import { useDispatch } from 'react-redux';
+import { Redirect } from 'react-router-dom';
+import { userSignUp, userLogIn } from '../utils/API';
+import { signup, login } from '../actions/actionCreators';
 
-const AuthModal = ({clickedButton, activeModal, toggleModal}) => {
+export const AuthModal = ({clickedButton, activeModal, toggleModal}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const dispatch = useDispatch();
+  
   const handleInputChange = event => {
   let value = event.target.value;
   const name = event.target.name;
@@ -13,31 +18,44 @@ const AuthModal = ({clickedButton, activeModal, toggleModal}) => {
   if (name === 'password') setPassword(value);
 };
 
+const handleSignup = async () => {
+  await userSignUp({email, password})
+  .then(res => {
+    dispatch(signup(res));
+    if (res) setIsLoggedIn(true);
+  })
+}
+
+const handleLogin = async () => {
+  await userLogIn({email, password})
+  .then(res => {
+    dispatch(login(res));
+    if (res) setIsLoggedIn(true);
+  })
+}
+
 const handleFormSubmit = event => {
   event.preventDefault();
   if (!email || !password) {
     alert('Please enter a valid email and password');
   } else {
     if (clickedButton === 'Sign Up') {
-      toggleModal();
-      API.userSignUp({
-        email: email,
-        password: password
-      })
+      handleSignup();
       setEmail('');
       setPassword('');
+      toggleModal();
     } else if (clickedButton === 'Login') {
-      toggleModal();
-      API.userLogIn({
-          email: email,
-          password: password
-      })
+      handleLogin();
       setEmail('');
       setPassword('');
+      toggleModal();
     }
   }
 };
 
+  if (isLoggedIn) {
+    return <Redirect to='/dashboard' />
+  }
   return (
     <div className={`modal ${activeModal ? 'is-active' : null}`}>
       <div className='modal-background' />
@@ -79,5 +97,3 @@ const handleFormSubmit = event => {
     </div>
   );
 }
-
-export default AuthModal;

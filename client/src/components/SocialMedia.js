@@ -1,6 +1,6 @@
 import React from 'react';
 
-const SocialMedia = ({socialClass}) => (
+export const SocialMedia = ({socialClass}) => (
     <div className={socialClass}>
         <a href='https://www.facebook.com' target='_blank' rel='noopener noreferrer'>
             <img src='https://res.cloudinary.com/willblake01/image/upload/v1538510014/hotspotr/facebook-brown.svg' className='social-icon' alt='facebook' />
@@ -16,5 +16,3 @@ const SocialMedia = ({socialClass}) => (
         </a>
     </div>
 )
-
-export default SocialMedia;
