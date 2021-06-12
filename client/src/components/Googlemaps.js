@@ -3,7 +3,7 @@ import GoogleMapReact from 'google-map-react';
 
 const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
-const Googlemaps = ({mapClass, center, zoom, onChildMouseEnter, onChildMouseLeave, placesResults}) => {
+export const Googlemaps = ({mapClass, center, zoom, onChildMouseEnter, onChildMouseLeave, placesResults}) => {
 
   return (
     // Important! Always set the container height explicitly
@@ -59,5 +59,3 @@ Googlemaps.defaultProps = {
   },
   zoom: 11
 };
-
-export default Googlemaps;

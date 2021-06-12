@@ -1,6 +1,6 @@
 import React from 'react';
 
-const DemographicForm = ({handleInputChange, handleSubmit}) => (
+export const DemographicForm = ({handleInputChange, handleSubmit}) => (
     <div className='field'>
         <label className='label'>What demographic would you like to research?</label>
         <div className='control'>
@@ -11,5 +11,3 @@ const DemographicForm = ({handleInputChange, handleSubmit}) => (
         </div>
     </div>
 );
-
-export default DemographicForm;

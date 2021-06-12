@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Error500 = () => (
+export const Error500 = () => (
   <div className="default-error-page">
     <div className="dialog">
       <div>
@@ -10,5 +10,3 @@ const Error500 = () => (
     </div>
   </div>
 )
-
-export default Error500;

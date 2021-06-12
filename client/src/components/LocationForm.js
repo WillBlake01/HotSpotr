@@ -1,6 +1,6 @@
 import React from 'react';
 
-const LocationForm = ({handleInputChange, handleSubmit}) => (
+export const LocationForm = ({handleInputChange, handleSubmit}) => (
     <div className='field'>
         <label className='label'>What location would you like to research?</label>
         <div className='control'>
@@ -11,5 +11,3 @@ const LocationForm = ({handleInputChange, handleSubmit}) => (
         </div>
     </div>
 );
-
-export default LocationForm;

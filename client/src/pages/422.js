@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Error422 = () => (
+export const Error422 = () => (
   <div className="default-error-page">
     <div className="dialog">
       <div>
@@ -11,5 +11,3 @@ const Error422 = () => (
     </div>
   </div>
 )
-
-export default Error422;

@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import Sidebar from '../components/Sidebar.js';
-import SocialMedia from '../components/SocialMedia.js';
-import Googlemaps from '../components/Googlemaps.js';
+import { Sidebar } from '../components/Sidebar.js';
+import { SocialMedia } from '../components/SocialMedia.js';
+import { Googlemaps } from '../components/Googlemaps.js';
 import { ThemeProvider } from '@material-ui/styles';
 import { Drawer, MenuItem } from '@material-ui/core';
 import { IndustryForm, LocationForm, DemographicForm, CompetitionHeatmap } from '../components/Forms';
-import API from '../utils/API';
-import Logo2 from '../components/Logo2.js';
-import Footer from '../components/Footer.js';
+import { sendTest } from '../utils/API';
+import { Logo2 } from '../components/Logo2.js';
+import { Footer } from '../components/Footer.js';
 
-const Dashboard = () => {
+export const Dashboard = () => {
   const [open, setOpen] = useState(false);
   const [whichForm, setWhichForm] = useState('');
   const [industry, setIndustry] = useState('');
@@ -59,7 +59,7 @@ const Dashboard = () => {
 
   const handleSubmit = () => {
     if (whichForm === 'industry') {
-      API.sendTest({ keyword: industry })
+      sendTest({ keyword: industry })
         .then(res => {
           const locations = res.data.results.map(i => i.geometry.location);
           placesResults.push(locations);
@@ -134,5 +134,3 @@ const Dashboard = () => {
     </div>
   );
 }
-
-export default Dashboard;

@@ -1,9 +1,7 @@
 import React from 'react';
 
-const CompetitionHeatmap = () => {
+export const CompetitionHeatmap = () => {
     return (
         
     )
 }
-
-export default CompetitionHeatmap;
